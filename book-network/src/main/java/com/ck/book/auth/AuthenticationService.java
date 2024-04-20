@@ -1,12 +1,12 @@
 package com.ck.book.auth;
 
+import com.ck.book.email.EmailService;
 import com.ck.book.role.RoleRepository;
 import com.ck.book.user.Token;
 import com.ck.book.user.TokenRepository;
 import com.ck.book.user.User;
 import com.ck.book.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.var;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
-    private final EmailService
+    private final EmailService emailService;
 
     public void register(RegistrationRequest request) {
         var userRole = roleRepository.findByName("USER")

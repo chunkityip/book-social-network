@@ -15,8 +15,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   mail:
     host: localhost
-    port: 1025
-    username: 0917
+    port: 5432
+    username: postgres
     password: 0917
     properties:
       mail:
@@ -42,4 +42,4 @@ application:
     uploads:
       photos-output-path: ./uploads
 server:
-  port: 9090
+  port: 5432

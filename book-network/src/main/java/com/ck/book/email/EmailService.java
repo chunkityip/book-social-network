@@ -17,6 +17,7 @@ import java.util.Map;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.mail.javamail.MimeMessageHelper.MULTIPART_MODE_MIXED;
 
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -53,7 +54,7 @@ public class EmailService {
         Context context = new Context();
         context.setVariables(properties);
 
-        helper.setFrom("yck11214@gmail.com");
+        helper.setFrom("contact@aliboucoding.com");
         helper.setTo(to);
         helper.setSubject(subject);
 

@@ -18,14 +18,13 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
 
     public String extractUsername(String token) {
-        return extractClaim(token , Claims::getSubject);
+        return extractClaim(token, Claims::getSubject);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -33,26 +32,19 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>() , userDetails);
+        return generateToken(new HashMap<>(), userDetails);
     }
 
-    private String generateToken(HashMap<String , Object> claims, UserDetails userDetails) {
-        return buildToken(claims, userDetails , jwtExpiration);
+    public String generateToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails
+    ) {
+        return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
     private String buildToken(
-            HashMap<String, Object> extraClaims,
+            Map<String, Object> extraClaims,
             UserDetails userDetails,
             long expiration
     ) {
@@ -84,10 +76,17 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    private Claims extractAllClaims(String token) {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
 
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-
 }
